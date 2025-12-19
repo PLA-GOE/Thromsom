@@ -14,7 +14,7 @@ You can now add seedpoints to the thrombus and adjust its threshold. Click on ne
 It is recommended to save Mask and Normalized Scan for later analysis.
 
 
-python3 main.py -stats enables the automated analysis. It required all former images:
+python3 main.py -stats enables the automated analysis. It requires all former images:
 1. The normalized scan
 2. The mask
 3. The original Dicom.
