@@ -28,6 +28,7 @@ def fill_holes(image_in, its):
 def get_neighbours(image_in, x, y):
     return np.sum(image_in[x - 1:x + 1, y - 1:y + 1])
 
+
 def blow_up(image_in, add_width, y_start, y_end):
     image_in = np.einsum("ab->ba", image_in)
     stepping = 5
@@ -66,9 +67,11 @@ def blow_up(image_in, add_width, y_start, y_end):
     image_in = np.einsum("ba->ab", image_in)
     return image_in
 
+
 def get_bins(image_in):
     print(np.unique(image_in.flatten()))
     print(np.bincount(image_in.flatten()))
+
 
 def generate_images(line_vert, line_hor, center_point, image_shape, image_array):
     print(line_vert, line_hor, center_point, image_shape)
@@ -106,9 +109,7 @@ def generate_images(line_vert, line_hor, center_point, image_shape, image_array)
     cut_array = image_array[:,left_upper_corner[1]:right_lower_corner[1],left_upper_corner[0]:right_lower_corner[0]]
 
     print(cut_array.shape)
-    #median_image = create_median(cut_array)
-    median_image = create_perc(cut_array)
-    #median_image = create_simple_median_value(cut_array)
+    median_image = create_median(cut_array)
     median_filtered_image = median_filter(median_image, 3)
     print(median_filtered_image.shape)
     min_arr = np.amax(median_filtered_image)
@@ -127,6 +128,7 @@ def generate_images(line_vert, line_hor, center_point, image_shape, image_array)
     filled_scan = fill_holes(edge_detected_image,3)
     get_bins(edge_detected_image)
     blown_up_array = blow_up(filled_scan, 4, 0, (filled_scan.shape[0] - 1))
+
 
     median_image[blown_up_array == 0] = 0
     median_min = np.amin(median_image[blown_up_array != 0])
@@ -173,29 +175,20 @@ def generate_images(line_vert, line_hor, center_point, image_shape, image_array)
 
 def create_median(scan_in):
     print("Creating longitudinal median of all scans.")
-    median_image = np.median(scan_in[:, :, :], axis=(0))
-    print("Median created.")
-    return median_image
-
-def create_perc(scan_in):
-    print("Creating longitudinal median of all scans.")
-    median_image_low = np.percentile(scan_in[:, :, :], 30, axis=(0))
-    median_image_high = np.percentile(scan_in[:, :, :], 70, axis=(0))
-    median_image = median_image_low if median_image_high > median_image_low else median_image_high
+    
+    #median_image = np.percentile(scan_in[:, :, :],15, axis=(0)) 
+    #median_image = np.percentile(scan_in[:, :, :],30, axis=(0)) 
+    median_image = np.mean(scan_in[26:, :, :], axis=(0))
     print("Median created.")
     return median_image
 
 
-def create_simple_median_value(scan_in):
-    print("Creating longitudinal median of all scans.")
-    median_image = np.median(scan_in[:, :, :], axis=(0))
-    print(median_image)
-    return_array = np.zeros_like(median_image)
-    return_array[median_image != 0] = np.median(median_image)
-    print(return_array)
-    print("Median created.")
-    return return_array
 
+#def create_median(scan_in):
+#    print("Creating longitudinal median of all scans.")
+#    median_image = np.median(scan_in[:, :, :], axis=(0))
+#    print("Median created.")
+#    return median_image
 
 def trim_to(input_image_array, lo, hi):
     output_image_array = (input_image_array - np.amin(input_image_array)) / float((np.amax(input_image_array) - np.amin(input_image_array))) * (hi - lo) + lo

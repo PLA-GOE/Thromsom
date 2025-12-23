@@ -7,6 +7,6 @@ from tracker import stats_from_param
 if "-stats" in sys.argv:
     stats_from_param()
 else:
-    directory = askopenfilename(initialdir="")
+    directory = askopenfilename(initialdir="/")
     print(directory)
     gui = draw_gui(directory)

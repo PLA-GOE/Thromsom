@@ -96,7 +96,7 @@ def stats(input_image_array, collapsed_col, collapsed_points):
                 oa_max_from = min_from
                 oa_max_to = min_to
                 oa_max_cp = collapsed_points[point]
-
+    print(oa_min_from, oa_min_to)
     line_pixels = plot_line(oa_min_from[0], oa_min_from[1], oa_min_to[0], oa_min_to[1])
     for line_point in line_pixels:
         collapsed_col[line_point[0], line_point[1]] = [255, 0, 0]
@@ -239,7 +239,7 @@ def analyze_id(sid, id, colored_array, path):
                     # print("Edge-Voxel:")
                     edge_voxel += 1
                     sides += (8 - neighbor_missing)
-            print("(",sid,",",slice_index, ",", id, ",", path[slice_index][1], ",", path[slice_index][0], ",", min_y, ",", max_y, ",", min_x, ",", max_x, ",", thrombus_count, ",", edge_voxel, ",", sides,"),")
+            print("('"+str(sid)+"',",slice_index, ",", id, ",", path[slice_index][1], ",", path[slice_index][0], ",", min_y, ",", max_y, ",", min_x, ",", max_x, ",", thrombus_count, ",", edge_voxel, ",", sides,"),")
 
 
 def find_id(tracking_val, colored_array, collapsed_col, rgb, regio_lock, mode):
@@ -262,6 +262,7 @@ def find_id(tracking_val, colored_array, collapsed_col, rgb, regio_lock, mode):
             print(colored_array.shape, "--", id_array.shape)
             for x in range(regio_lock[0][0], regio_lock[0][1]):
                 for y in range(regio_lock[1][0], regio_lock[1][1]):
+                    #print(slice.shape,",",x,",",y,",",id_array.shape,",",tracking_val,",",regio_lock[1][0])
                     if slice[x, y] == tracking_val and id_array[x, y] == 0:
                         entry = get_area(slice, tracking_val, id_array, id, x, y)
                         group_list.append(entry)
@@ -314,7 +315,6 @@ def find_id(tracking_val, colored_array, collapsed_col, rgb, regio_lock, mode):
                                 max_index = id
                                 max_sum = entry[0]
                         id += 1
-
             print("Max_volume:", max_sum, "with id", max_index)
             if max_sum != -1 and max_index != -1:
                 max_entry = group_list[(max_index - 1)]

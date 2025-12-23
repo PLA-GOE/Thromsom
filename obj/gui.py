@@ -4,6 +4,7 @@ from pathlib import Path
 from tkinter import NW, messagebox
 from tkinter.filedialog import askopenfilename
 
+
 # Directory Dialog
 import numpy as np
 import pydicom
@@ -77,6 +78,8 @@ class draw_gui(tk.Toplevel):
         if self.line_counter <= 3:
             self.line_counter += 1
 
+
+
     def unclick(self, event):
         print("unclicked at", event.x, event.y, self.line_counter)
         self.draw_canvas.create_image(0, 0, anchor=NW, image=self.img)
@@ -106,6 +109,7 @@ class draw_gui(tk.Toplevel):
             self.line_y2 = self.draw_canvas.create_line(self.line_hor[1], 0, self.line_hor[1], 1024, fill="#00ff00")
             self.line_counter -= 1
         self.motion(event)
+
 
     def __init__(self, path, *args, **kwargs):
         self.image_array = None
@@ -148,19 +152,32 @@ class draw_gui(tk.Toplevel):
         self.image_array = ds.pixel_array
         # Average of first and last slice
         min_arr = np.zeros((2,ds.pixel_array.shape[1],ds.pixel_array.shape[2]))
-        min_arr[0] = ds.pixel_array[0]
+        # Neu
+        start_nummer = 0
+        mean_arr = np.mean(ds.pixel_array, axis=0)
+        pix_arr = ds.pixel_array
+        for i in range(0, start_nummer):
+           pix_arr[i] = mean_arr
+           print(pix_arr.shape)
+        ds.PixelData = pix_arr.tobytes()
+        # Neu Ende
+        min_arr[0] = ds.pixel_array[start_nummer]
         min_arr[1] = ds.pixel_array[-1]
+        print(np.amin(ds.pixel_array[0]),np.amax(ds.pixel_array[0]),np.median(ds.pixel_array[0]),np.mean(ds.pixel_array[0]), np.std(ds.pixel_array[0]))
+        print(np.amin(ds.pixel_array[-1]),np.amax(ds.pixel_array[-1]),np.median(ds.pixel_array[-1]),np.mean(ds.pixel_array[-1]), np.std(ds.pixel_array[-1]))
         print(min_arr.shape)
-        click_slice = np.amin(min_arr, axis=0)
+        click_slice = (ds.pixel_array[start_nummer]+ds.pixel_array[-1])//2
         print(click_slice.shape)
+        print(click_slice)
         fq_perc = int(np.percentile(click_slice, 75))
         tq_perc = int(np.percentile(click_slice, 90))
         print("First:", fq_perc, ", third:", tq_perc)
-        click_slice[click_slice < fq_perc] = fq_perc
-        click_slice[click_slice > tq_perc] = tq_perc
-        print(np.amax(click_slice))
-        print(np.amin(click_slice))
+
+        print(np.max(click_slice))
+        print(np.min(click_slice))
         image_raw = (((click_slice - np.amin(click_slice)) / (np.amax(click_slice) - np.amin(click_slice))) * 255.0).astype("uint8")
+        #image_raw = (((click_slice - 500) / (2400 - 500)) * 255.0).astype("uint8")
+        
         print(image_raw.shape)
         print(image_raw)
         self.ifa = Image.fromarray(image_raw)

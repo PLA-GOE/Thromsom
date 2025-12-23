@@ -25,7 +25,7 @@ class global_region():
         self.max = np.amax(scan_cube)
         self.min = np.amax(scan_cube)
         self.current_image = None
-        self.end_of_id = [scan_cube.shape[2], scan_cube.shape[2], scan_cube.shape[2], scan_cube.shape[2], scan_cube.shape[2], scan_cube.shape[2], scan_cube.shape[2], scan_cube.shape[2], scan_cube.shape[2], scan_cube.shape[2]]
+        self.end_of_id = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         print(self.end_of_id)
 
     def __str__(self):

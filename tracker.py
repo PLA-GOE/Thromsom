@@ -25,7 +25,7 @@ color_id_sv = tk.StringVar
 color_id = 0
 cst = "0.8"
 global_region_scan = None
-init_dir = "/media/"
+init_dir = "/"
 
 
 def show_mono(image_in):
@@ -207,7 +207,8 @@ def near_trace(global_region_scan):
         start_index = global_region_scan.get_current_slice_index()
         start_index += 1
         print(global_region_scan)
-        while start_index < (global_region_scan.get_end_of_id(color_id_loc)):
+        #while start_index < (global_region_scan.get_end_of_id(color_id_loc)):
+        while start_index < (global_region_scan.get_z()):
             if global_region_scan.get_color_id_region(start_index, color_id_loc):
                 global_region_scan.delete_color_region(start_index, color_id_loc)
             for pixel in region_points:
@@ -484,6 +485,7 @@ def load_dcm_as_array(path):
 
 def load_nii_as_array(path):
     nii_arr = nb.load(path).get_fdata()
+    nii_arr = np.einsum("abc->cba", nii_arr)
     return nii_arr
 
 def load_dcm_as_dataset(path):
@@ -515,7 +517,7 @@ def stats_from_param():
     print("Stats...")
     scan_in_path = filedialog.askopenfilename(initialdir=init_dir, title="NORMALISIERTER SCAN DCM")
     mask_in_path = filedialog.askopenfilename(initialdir=init_dir, title="LABEL DCM/NII")
-    dicom_in_path = filedialog.askopenfilename(initialdir=init_dir, title="Original DCM/IMA")
+    dicom_in_path = filedialog.askopenfilename(initialdir="/", title="Original DCM/IMA")
     series_id = simpledialog.askstring(title="ID", prompt="Welche ID soll die Serie erhalten?")
     scan_array = load_dcm_as_array(scan_in_path)
     if os.path.isfile(mask_in_path):
@@ -554,12 +556,13 @@ def stats_from_param():
     collapsed_col, path_one = find_id(1, mask_array, collapsed_col, translate_color_id_to_rgb(1-1), [[min_x, max_x],[min_y, max_y]], "biggest")
     collapsed_col, path_two = find_id(2, mask_array, collapsed_col, translate_color_id_to_rgb(2-1), [[min_x, max_x],[min_y, max_y]], "biggest")
     collapsed_col, path_three = find_id(3, mask_array, collapsed_col, translate_color_id_to_rgb(3-1), [[min_x, max_x],[min_y, max_y]], "biggest")
+    print("P:",dicom_in_path)
     print("==============================================COPY FROM BELOW=========================================================")
-    db_s = "INSERT INTO thromsom.meta (sID, series_desc, study_date, study_time, acquisition_time, acquisition_number, distance_s2d, pxl_x, pxl_y, stenose_dia, stent_retr, stent_length, stent_dia, microcath, mc_dia, mc_length, fragmentation, stuck, bubbles, comment) values" \
-           " ('" + str(series_id) + "','" + str(dh[0x0008, 0x103e].value) + "','" + str(dh[0x0008, 0x0020].value) + "','" + str(dh[0x0008, 0x0030].value) + "','" + str(dh[0x0008, 0x0032].value) + \
+    db_s = "INSERT INTO thromsom.meta (sID, orig_name, series_desc, study_date, study_time, acquisition_time, acquisition_number, distance_s2d, pxl_x, pxl_y, stenose_dia, stent_retr, stent_length, stent_dia, microcath, mc_dia, mc_length, fragmentation, stuck, bubbles, comment) values" \
+           " ('" + str(series_id)  + "','UKN','" + str(dh[0x0008, 0x103e].value) + "','" + str(dh[0x0008, 0x0020].value) + "','" + str(dh[0x0008, 0x0030].value) + "','" + str(dh[0x0008, 0x0032].value) + \
            "','" + str(dh[0x0020, 0x0012].value) + "','" + str(dh[0x0018, 0x1110].value) + "','" + str(dh[0x0018, 0x1164][0]) + "','" + str(dh[0x0018, 0x1164][1]) + "',0,'" + str("") + "',0,0,'" + str("") + "',0,0,0,0,0,'" + str("") + "');"
     print(db_s)
-    print("INSERT INTO thromsom.data (sID, slice_number, color_id, x,y,min_x, max_x, min_y, max_y, pixel_count, pixel_count, pixel_sides) VALUES")
+    print("INSERT INTO thromsom.data (sID, slice_number, color_id, x,y,min_x, max_x, min_y, max_y, pixel_count, pixel_edges, pixel_sides) VALUES")
     analyze_id(series_id, 1, mask_array, path_one)
     analyze_id(series_id, 2, mask_array, path_two)
     analyze_id(series_id, 3, mask_array, path_three)
@@ -570,9 +573,9 @@ def stats_from_param():
 
 def generate_stats():
     print("Stats...")
-    scan_in_path = filedialog.askopenfilename(initialdir="", title="Norm. Scan Dicom")
-    mask_in_path = filedialog.askopenfilename(initialdir="", title="Mask Dicom")
-    dicom_in_path = filedialog.askopenfilename(initialdir="", title="Original Dicom")
+    scan_in_path = filedialog.askopenfilename(initialdir="/", title="Norm. Scan Dicom")
+    mask_in_path = filedialog.askopenfilename(initialdir="/", title="Mask Dicom")
+    dicom_in_path = filedialog.askopenfilename(initialdir="/", title="Original Dicom")
     series_id = simpledialog.askinteger(title="ID", prompt="Welche ID soll die Serie erhalten?")
     scan_array = load_dcm_as_array(scan_in_path)
     mask_array = load_dcm_as_array(mask_in_path)
@@ -598,6 +601,7 @@ def generate_stats():
     collapsed_col, path_one = find_id(1, mask_array, collapsed_col, translate_color_id_to_rgb(1-1), [[min_x, max_x],[min_y, max_y]], "biggest")
     collapsed_col, path_two = find_id(2, mask_array, collapsed_col, translate_color_id_to_rgb(2-1), [[min_x, max_x],[min_y, max_y]], "biggest")
     collapsed_col, path_three = find_id(3, mask_array, collapsed_col, translate_color_id_to_rgb(3-1), [[min_x, max_x],[min_y, max_y]], "biggest")
+
     print("==============================================COPY FROM BELOW=========================================================")
     db_s = "INSERT INTO thromsom_db.meta (sID, series_desc, study_date, study_time, acquisition_time, acquisition_number, distance_s2d, pxl_x, pxl_y, stenose_dia, stent_retr, stent_length, stent_dia, microcath, mc_dia, mc_length, fragmentation, stuck, bubbles, comment) values" \
            " ('" + str(series_id) + "','" + str(dh[0x0008, 0x103e].value) + "','" + str(dh[0x0008, 0x0020].value) + "','" + str(dh[0x0008, 0x0030].value) + "','" + str(dh[0x0008, 0x0032].value) + \

@@ -18,9 +18,9 @@ def level_set(image_in, seed_x, seed_y):
 
     initial_distance = 5.0  # 5.0
 
-    sigma = 1.2 # 1.1 #Wanddicke
-    sigmoid_alpha = -0.05  # -0.1 #Invertfaktor
-    sigmoid_beta = 8  # 4.5k #Wand"Feinheit"
+    sigma = 1.5 # 1.5 #Wanddicke
+    sigmoid_alpha = -0.05  # -0.05 #Invertfaktor
+    sigmoid_beta = 6  # 6 #Wand"Feinheit"
 
     propagation_scaling = 10.0  # 10.0
     number_of_iterations = 10000

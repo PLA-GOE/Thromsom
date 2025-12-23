@@ -110,9 +110,9 @@ def find_shortest_line(start_point, bin_array, start_angle, end_angle, stepping)
                         min_angle = stepping_angle
                         if min_angle < 0:
                             min_angle %= 360
-                        #print("NEW: Min found dist:", min_dist, "with angle: ", min_angle, ", from:(", min_from[0], ",", min_from[1], ") to (", min_to[0], ",", min_to[1], ")")
-                    # print(np.amax(dist_sum[bin_array == 1]))
-                    # print(np.where(dist_sum == np.amax(dist_sum)))
-    #print("FS done:", start_angle, ",", end_angle, ",", stepping)
-    #print("FINAL: Min found dist:", min_dist, "with angle: ", min_angle, ", from:(", min_from[0], ",", min_from[1], ") to (", min_to[0], ",", min_to[1], ")")
+                        print("NEW: Min found dist:", min_dist, "with angle: ", min_angle, ", from:(", min_from[0], ",", min_from[1], ") to (", min_to[0], ",", min_to[1], ")")
+                    #print(np.amax(dist_sum[bin_array == 1]))
+                    #print(np.where(dist_sum == np.amax(dist_sum)))
+    print("FS done:", start_angle, ",", end_angle, ",", stepping)
+    print("FINAL: Min found dist:", min_dist, "with angle: ", min_angle, ", from:(", min_from[0], ",", min_from[1], ") to (", min_to[0], ",", min_to[1], ")")
     return min_dist, min_from, min_to, min_angle
