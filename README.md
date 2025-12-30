@@ -21,6 +21,9 @@ Each of the subdirectories in this repository contains a script to generate all 
 
 Instructions are available inside each subdirectory. We recommend you to start at "Segmentation" if you want to recreate the results of this paper.
 
+The full dataset is available upon reasonable request.
+
 Please reach out to mariellesophie.ernst@med.uni-goettingen.de if you have any questions regarding the paper.
+
 Contact philip.langer@med.uni-goettingen.de if you have questions regarding the actual code itself.
 
