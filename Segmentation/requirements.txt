@@ -1,0 +1,5 @@
+numpy~=1.21.2
+pydicom~=2.3.0
+Pillow~=9.2.0
+itk~=5.2.1.post1
+nibabel~=3.2.1
