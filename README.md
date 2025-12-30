@@ -11,6 +11,8 @@ For testing purposes and due to githubs size-restraints, we will share a test da
 
 ## Usage
 
+Every script has been validated to run with Python3, version 3.9.7. It may run with later version, but we recommend to use this version.
+
 Each of the subdirectories in this repository contains a script to generate all of the data presented in the above paper. 
 
 - Segmentation contains the actual tool developed for a robust segmentation
