@@ -41,11 +41,11 @@ You can use [ffmpeg](https://www.ffmpeg.org) to combine the images to your likin
 
 Exemplary animations:
 
-[Successful extraction](https://owncloud.gwdg.de/index.php/s/xU55iKa6LBGj3ly)
+[Successful extraction](https://owncloud.gwdg.de/index.php/s/sXNf4i8GmtYdMZJ)
 
-[Shortening](https://owncloud.gwdg.de/index.php/s/fAVhi6P4dLFpKYV)
+[Shortening](https://owncloud.gwdg.de/index.php/s/2fvbQyKsVIvYsjh)
 
-[Failed extraction](https://owncloud.gwdg.de/index.php/s/y2LrJwGboZJQYV9)
+[Failed extraction](https://owncloud.gwdg.de/index.php/s/WoIzegyWdjhgP0j)
 
 
 Contact: mariellesophie.ernst@med.uni-goettingen.de
