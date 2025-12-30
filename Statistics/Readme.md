@@ -22,10 +22,14 @@ You have to fill the empty arrays accordingly with your values and run each scri
 python3 ...
 
 mwu.py runs a mann-whitney-unit-test / wilcoxon-rank-sum-test
+
 CI.py calculates the confidence intervals
+
 fdr.py adjusts the results of mwu.py for multiple outcomes
-regression.py calculates the influence of clot-length on deformationa and contour change.
-interrater.py was used to determine our inter- and intrarater performance.
+
+regression.py calculates the influence of clot-length on deformationa and contour change
+
+interrater.py was used to determine our inter- and intrarater performance
 
 Most values in CAPSLOCK have to be adjusted to **your** path/values/parameters.
 
