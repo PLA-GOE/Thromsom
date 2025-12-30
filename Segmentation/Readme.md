@@ -3,9 +3,9 @@
 This tool is part of the github-release for our Paper:
 
 # Making the Invisible Visible: Integrated Visualization and Automated Quantification of Thrombus Deformation During Mechanical Thrombectomy
-(Ernst, 2026)
+(Ernst et al., 2026)
 
-For testing purposes and due to githubs size-restraints, we will share a test dataset for each stent-retrieber via this link:
+For testing purposes and due to githubs size-restraints, we will share a test dataset for each stent-retriever via this link:
 
 [Test-Data and examples](https://owncloud.gwdg.de/index.php/s/l7qJCG250VdI4NJ)
 
